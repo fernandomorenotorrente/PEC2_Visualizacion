@@ -1,0 +1,46 @@
+
+## Procesos de limpieza del conjunto de datos
+
+Primer contacto con el conjunto de datos, visualizamos su estructura.  
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+# Cargamos los paquetes R que vamos a usar
+library(ggplot2)
+library(dplyr)
+
+```
+
+# Limpieza del conjunto de datos
+
+Cargamos el dataset desde csv directamente el escritorio, y posteriormente definimos el nombre de las columnas y guardamos el número de filas en la variable filas.
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+# Cargamos el juego de datos
+set <- read.csv('C:/Users/Fer/Desktop/PEC2_Visualizacion/pax_data_1789_agreements_16-11-19.csv',stringsAsFactors = FALSE, header = FALSE)
+
+finalset <- set[1:1790,1:17]
+
+names(finalset) <- c("country","conflict_type","Peace_Process_Number","peace process Name","Region","Agreement ID","Agreement Name","Date_Signed","Agreement Definition and Status","Agreement_length","Number of characters","Agreement/conflict type","Agreement stage","subcoding of stage","Parties","Third Parties","Other Agreement")
+
+finalset[2:1790,"Date_Signed"]<-substr(finalset[2:1790,"Date_Signed"], 1, 4)
+
+#Aqui vemos los valores outliers
+
+total<- data.frame(matrix(ncol=2,nrow=1:1789))
+cont=0
+for(i in finalset[2:1790,"country"]){
+  total[cont,1]<-(length(finalset$country[finalset$country == i]))
+  total[cont,2]<- i
+  cont=cont+1
+}
+total<- distinct(total)
+total<- total [order(total$X1), ]
+boxplot(total$X1)
+
+# visualización final
+
+ggplot(data = finalset[2:1790,],aes(x=conflict_type,fill=Region))+geom_bar(position="fill")+facet_wrap(~Date_Signed)+theme(axis.text.x = element_text(angle = 90, hjust = 1)) 
+
+
+
+```
