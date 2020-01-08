@@ -12,7 +12,7 @@ library(dplyr)
 
 # Limpieza del conjunto de datos
 
-Cargamos el dataset desde csv directamente el escritorio, y posteriormente definimos el nombre de las columnas y guardamos el número de filas en la variable filas.
+Cargamos el dataset desde csv directamente el escritorio, y posteriormente definimos el nombre de las columnas 
 
 ```{r echo=TRUE, message=FALSE, warning=FALSE}
 # Cargamos el juego de datos
@@ -37,7 +37,7 @@ total<- distinct(total)
 total<- total [order(total$X1), ]
 boxplot(total$X1)
 
-# visualización final
+# visualizaciÃ³n final
 
 ggplot(data = finalset[2:1790,],aes(x=conflict_type,fill=Region))+geom_bar(position="fill")+facet_wrap(~Date_Signed)+theme(axis.text.x = element_text(angle = 90, hjust = 1)) 
 
